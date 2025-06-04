@@ -85,7 +85,7 @@ outline: none;
 <i class="ri-robot-line ri-xl text-primary"></i>
 </div>
 <h3 class="text-xl font-semibold mb-4">Автоматизированная торговля</h3>
-<p class="text-gray-600">Реализация автоматического исполнения торговых стратегий через API российских бирж с контролем рисков и мониторингом результатов.</p>
+<p class="text-gray-600">Реализация автоматического исполнения торговых стратегий с контролем рисков и мониторингом результатов.</p>
 </div>
 </div>
 </div>
@@ -208,6 +208,17 @@ outline: none;
 <div class="container mx-auto px-4">
 <h2 class="text-3xl font-bold text-center mb-16">Отчеты проекта</h2>
 <div class="max-w-4xl mx-auto">
+<div class="bg-white p-8 rounded shadow-lg">
+<div class="flex items-center justify-center">
+<a href="https://github.com/K1RIXmp3/practice_2025_KO" target="_blank" class="flex items-center group">
+<i class="ri-github-fill ri-2x text-primary mr-3"></i>
+<div>
+<h4 class="text-xl font-semibold group-hover:text-primary">Все отчеты доступны на GitHub</h4>
+<p class="text-gray-600 mt-2">Полная документация и отчеты по проекту</p>
+</div>
+</a>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -374,3 +385,151 @@ lineStyle: {
 color: '#f0f0f0'
 }
 }
+},
+series: [
+{
+name: 'Стратегия 1',
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+width: 3,
+color: 'rgba(87, 181, 231, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.2)'
+},
+{
+offset: 1,
+color: 'rgba(87, 181, 231, 0.01)'
+}
+])
+},
+data: [120, 132, 101, 134, 90, 230, 210, 182, 191, 234, 290, 330]
+},
+{
+name: 'Стратегия 2',
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+width: 3,
+color: 'rgba(141, 211, 199, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+{
+offset: 0,
+color: 'rgba(141, 211, 199, 0.2)'
+},
+{
+offset: 1,
+color: 'rgba(141, 211, 199, 0.01)'
+}
+])
+},
+data: [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149]
+},
+{
+name: 'Индекс',
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+width: 3,
+color: 'rgba(251, 191, 114, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+{
+offset: 0,
+color: 'rgba(251, 191, 114, 0.2)'
+},
+{
+offset: 1,
+color: 'rgba(251, 191, 114, 0.01)'
+}
+])
+},
+data: [150, 232, 201, 154, 190, 330, 410, 182, 191, 234, 290, 330]
+}
+]
+};
+mainChart.setOption(mainOption);
+// График потока данных
+const flowChart = echarts.init(document.getElementById('flow-chart'));
+const flowOption = {
+animation: false,
+tooltip: {
+trigger: 'item',
+backgroundColor: 'rgba(255, 255, 255, 0.8)',
+borderColor: '#f0f0f0',
+textStyle: {
+color: '#1f2937'
+}
+},
+series: [
+{
+type: 'sankey',
+layout: 'none',
+emphasis: {
+focus: 'adjacency'
+},
+data: [
+{ name: 'Источники данных' },
+{ name: 'Модуль данных' },
+{ name: 'Хранилище' },
+{ name: 'Модуль анализа' },
+{ name: 'Модуль стратегий' },
+{ name: 'Бэктестер' },
+{ name: 'Оптимизатор' },
+{ name: 'Модуль исполнения' },
+{ name: 'Биржа' }
+],
+links: [
+{ source: 'Источники данных', target: 'Модуль данных', value: 5 },
+{ source: 'Модуль данных', target: 'Хранилище', value: 5 },
+{ source: 'Хранилище', target: 'Модуль анализа', value: 3 },
+{ source: 'Хранилище', target: 'Модуль стратегий', value: 4 },
+{ source: 'Модуль анализа', target: 'Модуль стратегий', value: 3 },
+{ source: 'Модуль стратегий', target: 'Бэктестер', value: 4 },
+{ source: 'Бэктестер', target: 'Оптимизатор', value: 2 },
+{ source: 'Оптимизатор', target: 'Модуль стратегий', value: 2 },
+{ source: 'Модуль стратегий', target: 'Модуль исполнения', value: 3 },
+{ source: 'Модуль исполнения', target: 'Биржа', value: 3 }
+],
+lineStyle: {
+color: 'source',
+curveness: 0.5
+},
+itemStyle: {
+color: function(params) {
+const colors = [
+'rgba(87, 181, 231, 1)',
+'rgba(141, 211, 199, 1)',
+'rgba(251, 191, 114, 1)',
+'rgba(252, 141, 98, 1)'
+];
+return colors[params.dataIndex % colors.length];
+},
+borderRadius: 6
+},
+label: {
+color: '#1f2937'
+}
+}
+]
+};
+flowChart.setOption(flowOption);
+// Адаптивность графиков при изменении размера окна
+window.addEventListener('resize', function() {
+mainChart.resize();
+flowChart.resize();
+});
+});
+</script>
+</body>
+</html>
